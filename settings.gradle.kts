@@ -1,1 +1,1 @@
-rootProject.name = "hi-town-bot"
+rootProject.name = "tag-me-in-hi-town-bot"

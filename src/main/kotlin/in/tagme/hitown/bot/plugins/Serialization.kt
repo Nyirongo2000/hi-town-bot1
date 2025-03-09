@@ -1,7 +1,7 @@
 /**
  * Json serialization Ktor plugin.
  */
-package chat.hitown.bot.plugins
+package `in`.tagme.hitown.bot.plugins
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*

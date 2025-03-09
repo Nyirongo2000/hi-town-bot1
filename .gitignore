@@ -34,3 +34,11 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Local Properties
+local.properties
+
+### Errors and Logs ###
+
+errors.txt
+log.txt

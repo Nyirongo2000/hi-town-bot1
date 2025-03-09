@@ -1,8 +1,18 @@
-# Hi Town Bot
+# Tag Me In Hi Town Bot
 
-Welcome!
+This bot, implemented in `Bot.kt`, is a bot that:
 
-Implement your bot in `Bot.kt`
+- Runs on https://hitown.chat Hi Town
+- Connects to https://tagme.in as a data source
+
+## Usage
+
+Send messages on Hi Town in a group that has this bot installed, and working (server is running), send a message with the following format:
+
+## Channel commands
+
+### Show the top 10 channel messages
+- `!tmi <channel name>`, where `<channel name>` would be replaced with `cars` or `ice cream`, etc. Channel names will be URL encoded before requested from Tag Me In.
 
 # Ubuntu server setup guide
 
@@ -35,7 +45,7 @@ service nginx restart
 ### 4. Run your bot
 
 ```bash
-nohup java -jar '<enter bot name here>.jar' > log.txt 2> errors.txt < /dev/null &
+nohup java -jar 'tmi.jar' > log.txt 2> errors.txt < /dev/null &
 ```
 ### 5. Stop your bot
 

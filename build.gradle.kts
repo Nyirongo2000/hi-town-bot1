@@ -12,11 +12,11 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "2.1.10"
 }
 
-group = "chat.hitown.bot"
+group = "in.tagme.hitown.bot"
 version = "0.0.1"
 
 application {
-    mainClass.set("chat.hitown.bot.plugins.ApplicationKt")
+    mainClass.set("in.tagme.hitown.bot.plugins.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")

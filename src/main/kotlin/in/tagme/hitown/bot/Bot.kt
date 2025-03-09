@@ -4,13 +4,14 @@
  * Also see `Models.kt` for additional information.
  */
 
-package chat.hitown.bot
+package `in`.tagme.hitown.bot
 
-import chat.hitown.bot.plugins.BotConfigValue
-import chat.hitown.bot.plugins.BotDetails
-import chat.hitown.bot.plugins.InstallBotBody
-import chat.hitown.bot.plugins.MessageBotBody
-import chat.hitown.bot.plugins.MessageBotResponse
+import `in`.tagme.hitown.bot.plugins.BotAction
+import `in`.tagme.hitown.bot.plugins.BotConfigValue
+import `in`.tagme.hitown.bot.plugins.BotDetails
+import `in`.tagme.hitown.bot.plugins.InstallBotBody
+import `in`.tagme.hitown.bot.plugins.MessageBotBody
+import `in`.tagme.hitown.bot.plugins.MessageBotResponse
 
 /**
  * Bot instance.
@@ -25,17 +26,31 @@ class Bot {
         /**
          * Bot name.
          */
-        name = "Hi Town Bot",
+        /**
+         * Bot name.
+         */
+        name = "Tag Me In",
         /**
          * Bot description.
          */
-        description = "A Hi Town bot",
+        /**
+         * Bot description.
+         */
+        description = "A bot to interact with Tag Me In directly from Hi Town",
         /**
          * Keywords that will cause a Hi Town group message to be sent to the bot.
          *
          * Leaving this empty means the bot receives all messages sent to the group.
          */
-        keywords = emptyList(),
+        /**
+         * Keywords that will cause a Hi Town group message to be sent to the bot.
+         *
+         * Leaving this empty means the bot receives all messages sent to the group.
+         */
+        keywords = listOf("!tmi"),
+        /**
+         * Available configuration options for the bot (optional).
+         */
         /**
          * Available configuration options for the bot (optional).
          */
@@ -119,8 +134,10 @@ class Bot {
          * See `Models.kt` for details.
          */
         return MessageBotResponse(
-            success = false,
-            note = "The bot is not configured to respond to messages.",
+            success = true,
+            note = "Hello",
+            actions = listOf(BotAction(message = "Hello from Tag Me In"))
+
         )
     }
 }

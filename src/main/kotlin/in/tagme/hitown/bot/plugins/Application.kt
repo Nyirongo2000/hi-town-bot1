@@ -2,7 +2,7 @@
  * The Ktor server.
  */
 
-package chat.hitown.bot.plugins
+package `in`.tagme.hitown.bot.plugins
 
 import configureRouting
 import io.ktor.server.engine.embeddedServer

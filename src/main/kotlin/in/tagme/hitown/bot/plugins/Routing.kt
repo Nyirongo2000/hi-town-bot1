@@ -2,11 +2,11 @@
  * Routes as defined in the Hi Town bot specification.
  */
 
-import chat.hitown.bot.bot
-import chat.hitown.bot.plugins.InstallBotBody
-import chat.hitown.bot.plugins.InstallBotResponse
-import chat.hitown.bot.plugins.MessageBotBody
-import chat.hitown.bot.plugins.ReinstallBotBody
+import `in`.tagme.hitown.bot.bot
+import `in`.tagme.hitown.bot.plugins.InstallBotBody
+import `in`.tagme.hitown.bot.plugins.InstallBotResponse
+import `in`.tagme.hitown.bot.plugins.MessageBotBody
+import `in`.tagme.hitown.bot.plugins.ReinstallBotBody
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application

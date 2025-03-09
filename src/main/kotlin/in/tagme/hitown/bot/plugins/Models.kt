@@ -2,7 +2,7 @@
  * API models as defined in the Hi Town bot specification.
  */
 
-package chat.hitown.bot.plugins
+package `in`.tagme.hitown.bot.plugins
 
 import kotlinx.serialization.Serializable
 
