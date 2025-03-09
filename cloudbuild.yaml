@@ -1,0 +1,8 @@
+steps:
+  - name: 'gcr.io/buildpacks/builder:google-22'
+    env:
+      - 'GOOGLE_RUNTIME_VERSION=21'
+      - 'GRADLE_OPTS=-Xms256m -Xmx512m'
+    args: ['pack', 'build', 'tag-me-in-hi-town-bot', '--path', '.']
+images:
+  - 'tag-me-in-hi-town-bot'
