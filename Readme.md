@@ -45,7 +45,8 @@ service nginx restart
 ### 4. Run your bot
 
 ```bash
-nohup java -jar 'tmi.jar' > log.txt 2> errors.txt < /dev/null &
+nohup java -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -jar ./build/libs/tag-me-in-hi-town-bot-all.jar
+ > log.txt 2> errors.txt < /dev/null &
 ```
 ### 5. Stop your bot
 
