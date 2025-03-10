@@ -19,6 +19,8 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URI
+import java.net.URLEncoder
+import java.util.Base64
 
 /**
  * Bot instance.
@@ -26,6 +28,23 @@ import java.net.URI
 val bot = Bot()
 
 const val ONE_HOUR_MS = 60 * 60 * 1000
+
+fun niceNumber(value: Double): String {
+    if (value > 1e12) {
+        return "%.1fT".format(value / 1e12)
+    }
+    if (value > 1e9) {
+        return "%.1fB".format(value / 1e9)
+    }
+    if (value > 1e6) {
+        return "%.1fM".format(value / 1e6)
+    }
+    if (value > 1e3) {
+        return "%.1fk".format(value / 1e3)
+    }
+    return Math.round(value).toString()
+}
+
 
 class Bot {
     /**
@@ -195,8 +214,17 @@ class Bot {
 
         scoredContent.forEach { (contentText, messageData) ->
             val score = calculateScore(messageData)
-            markdownBuilder.append("> *\"${contentText.replace("\"", "\\\"")}\"*\n") // Block quote for content
-            markdownBuilder.append("`Score: ${"%.2f".format(score)}`\n\n") // Code block for score, formatted to 2 decimal places
+            contentText.split("\n").forEach { line ->
+                markdownBuilder.append("> *\"${line.replace("\"", "\\\"")}\"*\n")
+            }
+
+            val encodedChannel = URLEncoder.encode(channelName, "UTF-8")
+            val encodedText = URLEncoder.encode(contentText, "UTF-8")
+            val base64EncodedText = Base64.getEncoder().encodeToString(encodedText.toByteArray())
+            val link = "https://tagme.in/#/${encodedChannel}/${base64EncodedText}"
+            val prettyScore = niceNumber(score)
+            val scoreText = "score `$prettyScore` `(%.2f)`".format(score)
+            markdownBuilder.append("[ᵀᴹᴵ]($link) $scoreText\n\n") // Code block for score, formatted to 2 decimal places
         }
 
         return markdownBuilder.toString()
