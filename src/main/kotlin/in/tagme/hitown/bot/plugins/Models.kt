@@ -197,3 +197,25 @@ class Person(
     var id: String? = null,
     var name: String? = null,
 )
+
+data class TagMeInResponse(
+    val response: ResponseData?
+)
+
+data class ResponseData(
+    val channels: Map<String, Double?>?, // Channel scores, keys are channel names
+    val messages: Map<String, MessageData?>? // Message data, keys are quote texts
+)
+
+data class MessageData (
+    val newsChunk: Int?,
+    val position: Double?,
+    val seen: Long?,
+    val timestamp: Long?,
+    val velocity: Int?
+)
+
+data class ReplyData(
+    val count: Int?,
+    val top: List<Any>? // Could be more specific if reply structure is known
+)

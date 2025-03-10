@@ -39,6 +39,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.google.cloud.functions:functions-framework-api:1.1.0")
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-auth-jvm")
