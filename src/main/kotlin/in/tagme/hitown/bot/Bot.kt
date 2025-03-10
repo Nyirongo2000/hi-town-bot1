@@ -206,7 +206,10 @@ class Bot {
 
 
         val markdownBuilder = StringBuilder()
-        markdownBuilder.append("## Top 10 from Tag Me In - Channel: **${channelName}**\n\n") // Markdown header with channel name
+        val displayedChannelName = channelName.ifEmpty { "⌂" }
+        val encodedChannel = URLEncoder.encode(channelName, "UTF-8")
+
+        markdownBuilder.append("## Tag Me In Top 10 **[#${displayedChannelName}](https://tagme.in/#/$encodedChannel)**\n\n")
 
         if (scoredContent.isEmpty()) {
             return "No content found to display for channel: $channelName." // More specific message
@@ -218,13 +221,12 @@ class Bot {
                 markdownBuilder.append("> *\"${line.replace("\"", "\\\"")}\"*\n")
             }
 
-            val encodedChannel = URLEncoder.encode(channelName, "UTF-8")
-            val encodedText = URLEncoder.encode(contentText, "UTF-8")
+            val encodedText = URLEncoder.encode(contentText, "UTF-8").replace("+", "%20")
             val base64EncodedText = Base64.getEncoder().encodeToString(encodedText.toByteArray())
             val link = "https://tagme.in/#/${encodedChannel}/${base64EncodedText}"
             val prettyScore = niceNumber(score)
             val scoreText = "score `$prettyScore` `(%.2f)`".format(score)
-            markdownBuilder.append("[ᵀᴹᴵ]($link) $scoreText\n\n") // Code block for score, formatted to 2 decimal places
+            markdownBuilder.append("[ᵀᴹᴵ]($link) $scoreText\n\n")
         }
 
         return markdownBuilder.toString()
