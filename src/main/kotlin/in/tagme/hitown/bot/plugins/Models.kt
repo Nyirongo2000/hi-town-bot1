@@ -200,16 +200,31 @@ class Person(
 
 data class TagMeInResponse(
     val response: ResponseData?
-)
+) {
+    companion object {
+        fun response(channels: Map<String, Double>, messages: Map<String, MessageData>): ResponseData {
+            return ResponseData(channels = channels , messages = messages)
+        }
+    }
+}
 
 data class ResponseData(
-    val channels: Map<String, Double?>?, // Channel scores, keys are channel names
-    val messages: Map<String, MessageData?>? // Message data, keys are quote texts
+    val channels: Map<String, Double>?, // Channel scores, keys are channel names
+    val messages: Map<String, MessageData>? // Message data, keys are quote texts
 )
 
-data class MessageData (
+data class LabelData(
+    val position: Double?,
+    val seen: Long?,
+    val timestamp: Long?,
+    val velocity: Int?
+)
+
+data class MessageData(
+    val labels: Map<String, LabelData>?,
     val newsChunk: Int?,
     val position: Double?,
+    val replies: ReplyData?,
     val seen: Long?,
     val timestamp: Long?,
     val velocity: Int?
