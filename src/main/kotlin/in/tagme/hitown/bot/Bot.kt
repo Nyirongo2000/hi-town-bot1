@@ -139,34 +139,22 @@ class Bot {
             val finalLabels = labels.reversed()
             println("Final labels are $finalLabels")
             return try {
-
-                val seekResponse = if (finalLabels.isEmpty()) {
-                    if (channelName.isEmpty()) {
-                        MessageBotResponse(success = false, note = "No channel name", actions = listOf(BotAction(message = "No channel name specified")))
-                    }
-                    seekChannel(channelName)
-                } else {
-                    seekChannel(channelName, finalLabels)
-                }?.takeIf { it.response?.messages?.isNotEmpty() ?: false }
-
-                println("Parsed Labels are $finalLabels")
-                if (seekResponse?.response?.messages != null) {
-                    val topContentMarkdown = formatTopContent(
-                        channelName, seekResponse.response.messages,
-                        finalLabels
-                    )
-                    MessageBotResponse(
-                        success = true,
-                        note = "Successfully fetched and formatted content for channel: $channelName",
-                        actions = listOf(BotAction(message = topContentMarkdown))
-                    )
-                } else {
-                    MessageBotResponse(
+                val seekResponse = seekChannel(channelName, finalLabels)
+                if (seekResponse?.response?.messages == null) {
+                    return MessageBotResponse(
                         success = false,
-                        note = "Failed to retrieve content from API for channel: '$channelName' or empty response",
-                        actions = listOf(BotAction(message = "Sorry, I couldn't fetch content for channel '$channelName' right now. Channel might not exist or data is unavailable."))
+                        note = "No content found for channel: '$channelName'",
+                        actions = listOf(BotAction(message = "No content found for channel: '$channelName'"))
                     )
                 }
+                val topContentMarkdown = formatTopContent(
+                    channelName, seekResponse.response.messages, finalLabels
+                )
+                MessageBotResponse(
+                    success = true,
+                    note = "Successfully fetched and formatted content for channel: $channelName",
+                    actions = listOf(BotAction(message = topContentMarkdown))
+                )
             } catch (e: Exception) {
                 e.printStackTrace() // Log the error for debugging
                 MessageBotResponse(
@@ -218,7 +206,7 @@ class Bot {
                         channelData.response?.messages?.filter { (messageContent, messageData) ->
                             // Extract the top label (status) from the message data
                             val scoredLabels =
-                                (messageData?.labels ?: emptyMap()).mapValues { (_, labelData) ->
+                                (messageData.labels ?: emptyMap()).mapValues { (_, labelData) ->
                                     calculateScore(
                                         LabelData(
                                             position = labelData.position,
@@ -311,7 +299,7 @@ class Bot {
         channelName: String, messages: Map<String, MessageData>, finalLabels: List<String>
     ): String { // Added channelName to formatter
         if (messages.isEmpty()) {
-            return "No content found for channel: $channelName."
+            // return "No content found for channel: $channelName."
         }
 
         val scoredContent =
@@ -335,7 +323,14 @@ class Bot {
         markdownBuilder.append("\n\n")
 
         if (scoredContent.isEmpty()) {
-            return "No content found to display for channel: $channelName." // More specific message
+            if (finalLabels.isNotEmpty()) {
+                markdownBuilder.append("\n\n")
+                markdownBuilder.append("No messages matched the given filters.")
+            } else {
+                markdownBuilder.append("\n\n")
+                markdownBuilder.append("No content found to display for channel: '$channelName'.")
+            }
+            return markdownBuilder.toString()
         }
 
         scoredContent.forEach { (contentText, messageData) ->
@@ -343,8 +338,7 @@ class Bot {
             val topLabelForMessage: String? = calculateTopLabel(
                 (messageData.labels ?: emptyMap()).mapValues { (_, labelData) ->
                     calculateScore(labelData)
-                }
-            )?.first?.substringAfter("status:")
+                })?.first?.substringAfter("status:")
 
             if (topLabelForMessage != null) {
                 markdownBuilder.append("> `status:$topLabelForMessage`\n")
@@ -355,8 +349,7 @@ class Bot {
                 markdownBuilder.append("\n")
             }
 
-            val encodedText =
-                URLEncoder.encode(contentText, "UTF-8").replace("+", "%20")
+            val encodedText = URLEncoder.encode(contentText, "UTF-8").replace("+", "%20")
             val base64EncodedText = Base64.getEncoder().encodeToString(encodedText.toByteArray())
             val link = "https://tagme.in/#/${encodedChannel}/${base64EncodedText}"
             val prettyScore = niceNumber(score)

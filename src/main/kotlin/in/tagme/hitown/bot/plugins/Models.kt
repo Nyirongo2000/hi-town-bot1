@@ -202,8 +202,11 @@ data class TagMeInResponse(
     val response: ResponseData?
 ) {
     companion object {
-        fun response(channels: Map<String, Double>, messages: Map<String, MessageData>): ResponseData {
-            return ResponseData(channels = channels , messages = messages)
+        fun response(
+            channels: Map<String, Double>,
+            messages: Map<String, MessageData>
+        ): ResponseData {
+            return ResponseData(channels = channels, messages = messages)
         }
     }
 }
