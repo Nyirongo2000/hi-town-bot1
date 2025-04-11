@@ -313,7 +313,7 @@ class Bot {
 
         val markdownBuilder = StringBuilder()
         val displayedChannelName = channelName.ifEmpty { "⌂" }
-        val encodedChannel = URLEncoder.encode(channelName, "UTF-8")
+        val encodedChannel = URLEncoder.encode(channelName, "UTF-8").replace("+", "%20")
 
         markdownBuilder.append("## Tag Me In Top 10 **[#${displayedChannelName}](https://tagme.in/#/$encodedChannel)**")
         if (finalLabels.isNotEmpty()) {
